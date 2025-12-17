@@ -6,3 +6,4 @@ const useBear = create((set) => ({
   removeAllBears: () => set({ bears: 0 }),
   updateBears: (newBears: BearType) => set({ bears: newBears }),
 }))
+export default useBear;

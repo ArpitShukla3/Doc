@@ -1,10 +1,11 @@
 import { ThemeProvider } from '@components/theme-provider'
 import './App.css'
+import { AppRouter } from './router'
 function App() {
 
   return (
    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-     <h1 className='text-blue-600'>Hello</h1>
+    <AppRouter/>
     </ThemeProvider>
   )
 }
