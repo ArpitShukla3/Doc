@@ -1,6 +1,6 @@
 import { CustomTooltip } from "@components/ui/elements/tooltip";
 import { Command, Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export default function SearchBar() {
@@ -44,11 +44,11 @@ export default function SearchBar() {
                 type="text"
                 placeholder="Search or jump to..."
                 className="
-          w-full bg-transparent text-secondary-foreground
-          placeholder:text-muted-foreground
-          outline-none border-none
-          focus:outline-none focus:ring-0
-        "
+                    w-full bg-transparent text-secondary-foreground
+                    placeholder:text-muted-foreground
+                    outline-none border-none
+                    focus:outline-none focus:ring-0
+                    "
                 ref={inputref}
                 value={inputText}
                 onChange={handleInputChange}
