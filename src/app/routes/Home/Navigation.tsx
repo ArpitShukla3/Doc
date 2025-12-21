@@ -4,15 +4,20 @@ import { Button } from "@components/ui/elements/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/elements/avatar";
 import { useOnlineStatus } from "@hooks/isOnline";
 import { useThemeToggle } from "@hooks/useTheme";
+import { SidebarTrigger } from "@components/ui/elements/sidebar";
 export default function Navigation() {
-    const {theme, toggleTheme} = useThemeToggle();
-    const isOnline = useOnlineStatus();
+  const { theme, toggleTheme } = useThemeToggle();
+  const isOnline = useOnlineStatus();
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-background border-b border-border">
       <div className="flex items-center justify-between px-4 h-16">
         {/* Box 1 */}
         <div className="flex items-center gap-2 shrink-0">
-          <Menu className="clickable"/>
+
+          <SidebarTrigger>
+            <Menu className="clickable" />
+          </SidebarTrigger>
+          
           <span >Product Strategy Q3</span>
         </div>
         {/* Box 2 */}
@@ -20,7 +25,7 @@ export default function Navigation() {
         {/* Box 3 starts */}
         <div className="flex items-center gap-4 shrink-0">
           {/* <span>Status</span> */}
-            <Button
+          <Button
             variant="secondary"
             size="sm"
             className={`${isOnline ? "bg-success text-success-foreground hover:bg-success/90" : "bg-destructive text-destructive-foreground hover:bg-destructive/90"}`}
@@ -46,18 +51,18 @@ export default function Navigation() {
             Share
             <Share className="ml-2 h-4 w-4" />
           </Button>
-            <Button
+          <Button
             variant="secondary"
             size="sm"
             onClick={toggleTheme}
-            >
-                {theme === "light" ? "Dark Mode" : "Light Mode"}
-            </Button>
+          >
+            {theme === "light" ? "Dark Mode" : "Light Mode"}
+          </Button>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-        {/* Box 3 ends */}
+          {/* Box 3 ends */}
         </div>
 
       </div>

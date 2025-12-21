@@ -73,4 +73,8 @@ function CustomTooltip({
   );
 }
 
-export { CustomTooltip, TooltipProvider }
+export {
+  CustomTooltip, TooltipProvider, Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+}
