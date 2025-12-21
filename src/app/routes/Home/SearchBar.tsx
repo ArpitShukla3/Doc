@@ -1,3 +1,4 @@
+import { CustomTooltip } from "@components/ui/elements/tooltip";
 import { Command, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -26,6 +27,12 @@ export default function SearchBar() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputText(e.target.value);
     }
+    const [isMac] = useState(()=>{
+        if(navigator.platform.toLowerCase().includes('mac')){
+            return true;
+        }
+        return false;
+    });
     return (
         <div className="flex items-center gap-3 w-1/3 rounded-md bg-secondary px-4 py-2 text-muted-foreground">
 
@@ -48,10 +55,12 @@ export default function SearchBar() {
             />
 
             {/* Shortcut */}
+            <CustomTooltip tooltipContent={`Press ${isMac ? "⌘K" : "Ctrl+K"} to search`}>
             <div className="flex items-center gap-1 rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
-                <Command className="h-3.5 w-3.5" />
+                {isMac ? <Command className="h-3.5 w-3.5" /> : <span>Ctrl+</span>}
                 <span>K</span>
             </div>
+            </CustomTooltip>
         </div>
     );
 }
