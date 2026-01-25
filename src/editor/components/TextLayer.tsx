@@ -22,7 +22,7 @@ const TextLayer = forwardRef<TextLayerHandle, TextLayerProps>(({ mode }, ref) =>
                 modules: {
                     toolbar: false // We control mode externally
                 },
-                placeholder: 'Start writing...'
+                // placeholder: 'Start writing...'
             });
         }
     }, []);
