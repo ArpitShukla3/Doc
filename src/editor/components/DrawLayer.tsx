@@ -61,7 +61,7 @@ export default function DrawLayer({ mode, tool, toolSettings }: DrawLayerProps) 
                 }
 
                 // Garage collection: remove strokes that have fully faded > 1s ago
-                const textMode = mode === 'text'; // Clean up when in text mode or after fade
+                // const textMode = mode === 'text'; // Clean up when in text mode or after fade
                 // Actually, clean up only if fully faded.
                 const nextStrokes = prevStrokes.filter(s => {
                     if (s.tool === 'highlighter' && s.fadeStart) {
