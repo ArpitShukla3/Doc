@@ -1,13 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import type { EditorMode } from '../types';
+
+export interface TextLayerHandle {
+    format: (format: string, value?: any) => void;
+}
 
 interface TextLayerProps {
     mode: EditorMode;
 }
 
-export default function TextLayer({ mode }: TextLayerProps) {
+const TextLayer = forwardRef<TextLayerHandle, TextLayerProps>(({ mode }, ref) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const quillInstance = useRef<Quill | null>(null);
 
@@ -33,6 +37,21 @@ export default function TextLayer({ mode }: TextLayerProps) {
         }
     }, [mode]);
 
+    useImperativeHandle(ref, () => ({
+        format: (format: string, value: any = true) => {
+            if (quillInstance.current) {
+                // Determine current selection or formatting
+                // Simple toggle logic for bools
+                const currentFormat = quillInstance.current.getFormat();
+                if (typeof value === 'boolean' && currentFormat[format]) {
+                    quillInstance.current.format(format, false);
+                } else {
+                    quillInstance.current.format(format, value);
+                }
+            }
+        }
+    }));
+
     return (
         <div className="absolute inset-0 z-0">
             <div ref={editorRef} className="h-full border-none" />
@@ -49,4 +68,6 @@ export default function TextLayer({ mode }: TextLayerProps) {
              `}</style>
         </div>
     );
-}
+});
+
+export default TextLayer;

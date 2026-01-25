@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-import type { EditorMode, Stroke, Point } from '../types';
+import type { EditorMode, Stroke, Point, DrawTool } from '../types';
 
 interface DrawLayerProps {
     mode: EditorMode;
+    tool: DrawTool;
 }
 
-export default function DrawLayer({ mode }: DrawLayerProps) {
+export default function DrawLayer({ mode, tool }: DrawLayerProps) {
     const [strokes, setStrokes] = useState<Stroke[]>([]);
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null);
     const svgRef = useRef<SVGSVGElement>(null);
@@ -22,6 +23,17 @@ export default function DrawLayer({ mode }: DrawLayerProps) {
 
     const handlePointerDown = (e: React.PointerEvent) => {
         if (mode !== 'draw') return;
+
+        if (tool === 'eraser') {
+            // Eraser logic is better handled in click or move?
+            // Simple eraser: click to delete stroke
+            // Let's implement click-to-delete for now, or drag-to-delete (hit test on move)
+            isDrawing.current = true;
+            eraseAt(e);
+            (e.target as Element).setPointerCapture(e.pointerId);
+            return;
+        }
+
         isDrawing.current = true;
         const point = getPoint(e);
         setCurrentStroke([point]);
@@ -31,7 +43,14 @@ export default function DrawLayer({ mode }: DrawLayerProps) {
     };
 
     const handlePointerMove = (e: React.PointerEvent) => {
-        if (!isDrawing.current || mode !== 'draw' || !currentStroke) return;
+        if (!isDrawing.current || mode !== 'draw') return;
+
+        if (tool === 'eraser') {
+            eraseAt(e);
+            return;
+        }
+
+        if (!currentStroke) return;
         const point = getPoint(e);
         setCurrentStroke(prev => [...(prev || []), point]);
     };
@@ -40,11 +59,21 @@ export default function DrawLayer({ mode }: DrawLayerProps) {
         if (!isDrawing.current) return;
         isDrawing.current = false;
 
-        if (currentStroke && currentStroke.length > 1) {
+        if (currentStroke && currentStroke.length > 1 && tool === 'pen') {
             setStrokes(prev => [...prev, currentStroke]);
         }
         setCurrentStroke(null);
         (e.target as Element).releasePointerCapture(e.pointerId);
+    };
+
+    const eraseAt = (e: React.PointerEvent) => {
+        const point = getPoint(e);
+        const threshold = 10; // Hit radius
+
+        setStrokes(prev => prev.filter(stroke => {
+            // Keep stroke if NO point in stroke is close to eraser
+            return !stroke.some(p => Math.hypot(p.x - point.x, p.y - point.y) < threshold);
+        }));
     };
 
     // Helper to convert stroke points to SVG path data
