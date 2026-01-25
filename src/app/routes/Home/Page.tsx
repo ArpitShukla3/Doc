@@ -1,12 +1,11 @@
-import Editor from '@mylexical/Editor.tsx'
+import { EditorRoot } from '@editor';
+
 export default function Page() {
     return (
-        <div className="w-full flex justify-center">
-            <div className="mt-20 w-2/3 
-                        flex flex-row bg-card
-                        rounded-md">
-                <Editor />
+        <div className="w-full flex justify-center mt-20">
+            <div className="w-full max-w-4xl">
+                <EditorRoot />
             </div>
         </div>
     );
-}   
+}

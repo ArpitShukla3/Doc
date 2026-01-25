@@ -44,6 +44,12 @@
       "@mylexical/*": [
         "src/lexical/*"
       ],
+      "@editor": [
+        "src/editor/index.ts"
+      ],
+      "@editor/*": [
+        "src/editor/*"
+      ],
     }
   }
 }

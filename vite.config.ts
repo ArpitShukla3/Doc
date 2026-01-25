@@ -16,7 +16,7 @@ export default defineConfig({
       "@stores": path.resolve(__dirname, "src/stores"),
       "@utils": path.resolve(__dirname, "src/utils"),
       "@types": path.resolve(__dirname, "src/types"),
-      "@mylexical": path.resolve(__dirname, "src/lexical"),
+      "@editor": path.resolve(__dirname, "src/editor"),
     }
   }
   // Trigger restart
