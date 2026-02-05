@@ -1,11 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
 @layer base {
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
 }
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -46,16 +49,16 @@
   --radiuss-md: 6px;
   --radiuss-lg: 12px;
   --radiuss-vlg: 16px;
-  --accent:#ffdab3;
-  --accent-foreground:#6b3e00;
+  --accent: #ffdab3;
+  --accent-foreground: #6b3e00;
   --background: #f7f6f4;
   --foreground: #222222;
   --card: #ffffff;
-  --card-foreground:#222222;
+  --card-foreground: #222222;
   --primary: #4b7cfe;
-  --primary-foreground:#ffffff;
+  --primary-foreground: #ffffff;
   --secondary: #f0f2f4;
-  --secondary-foreground:#3b3b3b;
+  --secondary-foreground: #3b3b3b;
   --muted: #f4f4f5;
   --muted-foreground: #8a8a8a;
   --destructive: #d9919a;
@@ -66,10 +69,10 @@
   --success-foreground: #14794a;
   --sidebar: #eff0f2;
   --sidebar-foreground: #4b4b4b;
-  --sidebar-primary:#e7f0ff;
-  --sidebar-primary-foreground:#2354d1;
-  --warning : #fff4e5;
-  --warning-foreground : #7a4b00;
+  --sidebar-primary: #e7f0ff;
+  --sidebar-primary-foreground: #2354d1;
+  --warning: #fff4e5;
+  --warning-foreground: #7a4b00;
   --sidebar-accent: hsl(240 4.8% 95.9%);
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
@@ -147,10 +150,12 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
+
 .clickable {
   cursor: pointer;
 }
@@ -172,3 +177,12 @@
     @apply bg-background text-foreground;
   }
 } */
+:root {
+  --code-bg: #f1f3f5;
+  --code-text: #1f2937;
+}
+
+.dark {
+  --code-bg: #0b1220;
+  --code-text: #e5e7eb;
+}

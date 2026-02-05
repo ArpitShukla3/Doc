@@ -142,3 +142,12 @@
 .clickable {
   cursor: pointer;
 }
+:root {
+  --code-bg: #f1f3f5;
+  --code-text: #1f2937;
+}
+
+.dark {
+  --code-bg: #0b1220;
+  --code-text: #e5e7eb;
+}

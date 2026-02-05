@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import type { EditorMode, DrawTool, AllToolSettings } from '../types';
+import type { ActiveFormats } from './TextLayer';
 import { Button } from '@components/ui/elements/button';
-import { Bold, Italic, Underline, Pencil, Eraser, Type, ChevronDown, Check, Highlighter } from 'lucide-react';
+import { Bold, Italic, Underline, Pencil, Eraser, Type, ChevronDown, Check, Highlighter, Code, SquareCode } from 'lucide-react';
 
 interface FloatingMenubarProps {
     mode: EditorMode;
@@ -11,6 +12,8 @@ interface FloatingMenubarProps {
     toolSettings: AllToolSettings;
     setToolSettings: (settings: AllToolSettings) => void;
     onFormat: (format: string) => void;
+    onInsertEmbed: (type: string, value?: any) => void;
+    activeFormats?: ActiveFormats;
 }
 
 export default function FloatingMenubar({
@@ -20,7 +23,9 @@ export default function FloatingMenubar({
     setDrawTool,
     toolSettings,
     setToolSettings,
-    onFormat
+    onFormat,
+    onInsertEmbed,
+    activeFormats
 }: FloatingMenubarProps) {
     const isText = mode === 'text';
     const [showSettings, setShowSettings] = useState(false);
@@ -77,7 +82,7 @@ export default function FloatingMenubar({
 
     return (
         <div
-            className="absolute top-4 left-1/2 transform -translate-x-1/2 h-10 flex items-center gap-1 p-1 rounded-full bg-card border shadow-lg z-50 transition-all duration-300 ease-in-out"
+            className="absolute top-24 left-1/2 transform -translate-x-1/2 h-10 flex items-center gap-1 p-1 rounded-full bg-card border shadow-lg z-50 transition-all duration-300 ease-in-out fixed"
         >
             {/* Text Tools */}
             <div className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors ${isText ? 'bg-muted/50' : ''}`}>
@@ -94,7 +99,7 @@ export default function FloatingMenubar({
                 <div className="w-px h-4 bg-gray-200 mx-1" />
 
                 <Button
-                    variant="ghost"
+                    variant={activeFormats?.isBold ? "secondary" : "ghost"}
                     size="sm"
                     onClick={() => handleTextAction(() => onFormat('bold'))}
                     className={`rounded-full w-8 h-8 p-0 ${!isText ? 'opacity-50' : ''}`}
@@ -103,7 +108,7 @@ export default function FloatingMenubar({
                     <Bold className="w-4 h-4" />
                 </Button>
                 <Button
-                    variant="ghost"
+                    variant={activeFormats?.isItalic ? "secondary" : "ghost"}
                     size="sm"
                     onClick={() => handleTextAction(() => onFormat('italic'))}
                     className={`rounded-full w-8 h-8 p-0 ${!isText ? 'opacity-50' : ''}`}
@@ -112,13 +117,32 @@ export default function FloatingMenubar({
                     <Italic className="w-4 h-4" />
                 </Button>
                 <Button
-                    variant="ghost"
+                    variant={activeFormats?.isUnderline ? "secondary" : "ghost"}
                     size="sm"
                     onClick={() => handleTextAction(() => onFormat('underline'))}
                     className={`rounded-full w-8 h-8 p-0 ${!isText ? 'opacity-50' : ''}`}
                     disabled={!isText}
                 >
                     <Underline className="w-4 h-4" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleTextAction(() => onFormat('code'))}
+                    className={`rounded-full w-8 h-8 p-0 ${!isText ? 'opacity-50' : ''}`}
+                    disabled={!isText}
+                >
+                    <Code className="w-4 h-4" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleTextAction(() => onInsertEmbed('code-block-copy', ' '))} // Insert with space to ensure content
+                    className={`rounded-full w-8 h-8 p-0 ${!isText ? 'opacity-50' : ''}`}
+                    disabled={!isText}
+                    title="Code Block"
+                >
+                    <SquareCode className="w-4 h-4" />
                 </Button>
             </div>
 

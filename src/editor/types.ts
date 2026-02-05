@@ -23,3 +23,4 @@ export interface Stroke {
     tool: DrawTool;
     fadeStart?: number;
 }
+export * from './types/blocks';

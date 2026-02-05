@@ -5,9 +5,11 @@ interface DrawLayerProps {
     mode: EditorMode;
     tool: DrawTool;
     toolSettings: AllToolSettings;
+    onExpand?: () => void;
+    onCheckResize?: (maxY: number) => void;
 }
 
-export default function DrawLayer({ mode, tool, toolSettings }: DrawLayerProps) {
+export default function DrawLayer({ mode, tool, toolSettings, onExpand, onCheckResize }: DrawLayerProps) {
     const [strokes, setStrokes] = useState<Stroke[]>([]);
     const [currentStroke, setCurrentStroke] = useState<Stroke | null>(null);
     // Force re-render for animation
@@ -17,6 +19,8 @@ export default function DrawLayer({ mode, tool, toolSettings }: DrawLayerProps) 
     const rafRef = useRef<number | null>(null);
 
     const [cursorPos, setCursorPos] = useState<Point | null>(null);
+
+    // Fade Logic
 
     // Fade Logic
     useEffect(() => {
@@ -129,6 +133,14 @@ export default function DrawLayer({ mode, tool, toolSettings }: DrawLayerProps) 
         if (mode === 'draw') {
             const point = getPoint(e);
             setCursorPos(point);
+
+            // Infinite canvas expansion
+            if (isDrawing.current && onExpand && svgRef.current) {
+                const { height } = svgRef.current.getBoundingClientRect();
+                if (point.y > height * 0.5) {
+                    onExpand();
+                }
+            }
         }
 
         if (!isDrawing.current || mode !== 'draw') return;
@@ -150,8 +162,11 @@ export default function DrawLayer({ mode, tool, toolSettings }: DrawLayerProps) 
     };
 
     const handlePointerUp = (e: React.PointerEvent) => {
-        if (!isDrawing.current) return;
+        const wasDrawing = isDrawing.current;
         isDrawing.current = false;
+        (e.target as Element).releasePointerCapture(e.pointerId);
+
+        if (!wasDrawing) return;
 
         if (currentStroke && currentStroke.points.length > 1) {
             if (tool === 'pen' || tool === 'highlighter') {
@@ -159,7 +174,26 @@ export default function DrawLayer({ mode, tool, toolSettings }: DrawLayerProps) 
             }
         }
         setCurrentStroke(null);
-        (e.target as Element).releasePointerCapture(e.pointerId);
+
+        // Check for resize if we just finished using the eraser
+        if (tool === 'eraser' && onCheckResize) {
+            // We need to calculate the bounding box of all strokes
+            // Since setStrokes in eraseAt is async, we should use the current state 'strokes' 
+            // BUT eraseAt happened during move, so 'strokes' might still be updating?
+            // Actually, handlePointerMove calls eraseAt which calls setStrokes.
+            // React state updates might not be flushed yet in handlePointerUp if it happens in the same event tick?
+            // Usually fine.
+
+            // However, to be safe, we can calculate based on 'strokes'
+            // We need to find the maximum Y of all points in all strokes.
+            let maxY = 0;
+            strokes.forEach(stroke => {
+                stroke.points.forEach(p => {
+                    if (p.y > maxY) maxY = p.y;
+                });
+            });
+            onCheckResize(maxY);
+        }
     };
 
     const handlePointerLeave = () => {
