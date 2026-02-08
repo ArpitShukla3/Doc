@@ -6,3 +6,16 @@
 // //   removeAllBears: () => set({ bears: 0 }),
 // //   updateBears: (newBears: BearType) => set({ bears: newBears }),
 // // }))
+
+import type { TextBlockType } from "@myTypes/globalTypes";
+import { create } from "zustand";
+type MockState = {
+    mock: TextBlockType[];
+    setMock: (mock: TextBlockType[]) => void;
+}
+const useMock = create<MockState>((set) => ({
+    mock: [],
+    setMock: (mock: TextBlockType[]) => set({ mock }),
+}));
+
+export default useMock;

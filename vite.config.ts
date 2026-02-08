@@ -17,6 +17,7 @@ export default defineConfig({
       "@utils": path.resolve(__dirname, "src/utils"),
       "@types": path.resolve(__dirname, "src/types"),
       "@editor": path.resolve(__dirname, "src/editor"),
+      "@apis": path.resolve(__dirname, "src/apis")
     }
   }
   // Trigger restart

@@ -50,6 +50,9 @@
       "@editor/*": [
         "src/editor/*"
       ],
+      "@apis/*": [
+        "src/apis/*"
+      ]
     }
   }
 }
