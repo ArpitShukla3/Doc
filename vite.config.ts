@@ -15,7 +15,7 @@ export default defineConfig({
       "@lib": path.resolve(__dirname, "src/lib"),
       "@stores": path.resolve(__dirname, "src/stores"),
       "@utils": path.resolve(__dirname, "src/utils"),
-      "@types": path.resolve(__dirname, "src/types"),
+      "@myTypes": path.resolve(__dirname, "src/types"),
       "@editor": path.resolve(__dirname, "src/editor"),
       "@apis": path.resolve(__dirname, "src/apis")
     }

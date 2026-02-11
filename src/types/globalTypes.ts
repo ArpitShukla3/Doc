@@ -1,19 +1,26 @@
 export type BearType = {
     id: number;
 }
+export type TextBlockType = {
+  id: string;          // important for stable rendering
+  isCode: boolean;
+  codeLanguage?: Language;
+  heading?: Heading;
+  isItalic?: boolean;
+  text: string;
+  input?: string;
+  output?: string;
+};
 export enum Heading {
-    H1 = "h1",
-    H2 = "h2",
-    H3 = "h3",
+  H1 = "h1",
+  H2 = "h2",
+  H3 = "h3",
+}
+export enum Language{
+    cpp = "cpp",
+    java = "java",
+    python = "python",
+    javascript = "javascript",
+    default = "cpp"
 }
 
-export type TextBlockType = {
-    id: string;
-    isCode: boolean;
-    heading?: Heading;
-    isItalic?: boolean;
-    text: string;
-    input?: string;
-    output?: string;
-    error?: string;
-};
