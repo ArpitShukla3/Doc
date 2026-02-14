@@ -17,7 +17,6 @@ export enum Heading {
   H3 = "h3",
 }
 export enum Language{
-    cpp = "cpp",
     java = "java",
     python = "python",
     javascript = "javascript",

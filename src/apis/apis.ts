@@ -1,11 +1,13 @@
-import axios from 'axios';
-const server = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
-axios.defaults.baseURL = server;
 import {type TextBlockType } from '@myTypes/globalTypes';
-async function runCode(block: TextBlockType, input?: string): Promise<string> {
+import { api } from './axios';
+import useSocketStore from '@stores/socketStore';
+async function runCode(block: TextBlockType, input?: string): Promise<void> {
+    console.log("Running code with input:", (useSocketStore.getState() as { socketId: string }).socketId);
     try {
-        const response = await axios.post('/api/run', block);
-        return response.data.output;
+        if (!(useSocketStore.getState() as { socketId: string }).socketId) {
+            throw new Error("WebSocket not connected");
+        }
+        await api.post('/api/run', block);
     } catch (error: any) {
         throw new Error(error.response?.data?.error || "Error running code");
     }

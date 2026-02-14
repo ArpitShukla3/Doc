@@ -27,7 +27,6 @@ export default function TextBlock({ block }: Props) {
 
   function handleInput(val: string) {
     let data: Partial<TextBlockType> = { text: val };
-    console.log("i have been workign")
     if (val.startsWith("/code")) {
       data = {
         isCode: true,

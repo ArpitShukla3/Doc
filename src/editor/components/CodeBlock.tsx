@@ -18,7 +18,6 @@ export default function CodeBlock({ block }: Props) {
     function LanguageSelector() {
         const [language, setLanguage] = useState<Language>(block.codeLanguage || Language.default);
         const avialiableLanguages = Object.values(Language);
-        console.log(language);
         function pickLanguage(lang: Language) {
             setLanguage(lang);
             updateBlock(block.id, { codeLanguage: lang });
@@ -49,10 +48,7 @@ export default function CodeBlock({ block }: Props) {
     }
     async function handleRun() {
         try {
-            const data = await runCode(block);
-            updateBlock(block.id, {
-                output: data,
-            });
+            await runCode(block);
         } catch (err) {
             const msg =
                 err instanceof Error
@@ -141,14 +137,12 @@ export default function CodeBlock({ block }: Props) {
                                         p-3
                                         overflow-auto
                                         whitespace-pre-wrap
-                                        overflow-hidden
                                         "
                                 />
                             </div>
                         </div>
                     </ResizablePanel>
-
-                    <ResizableHandle withHandle />
+                    <ResizableHandle />
 
                     {/* OUTPUT PANEL */}
                     <ResizablePanel defaultSize={50} minSize={30}>
@@ -176,7 +170,7 @@ export default function CodeBlock({ block }: Props) {
                                         text-sm
                                         font-mono
                                         whitespace-pre-wrap
-                                        break-words
+                                        wrap-break-word
                                         ">
                                         {block.output || "No Output"}
                                     </pre>
