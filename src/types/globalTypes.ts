@@ -7,6 +7,7 @@ export type TextBlockType = {
   codeLanguage?: Language;
   heading?: Heading;
   isItalic?: boolean;
+  isImage?: boolean;
   text: string;
   input?: string;
   output?: string;

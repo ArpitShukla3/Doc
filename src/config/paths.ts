@@ -5,8 +5,8 @@ export const paths = {
   dashboard: '/dashboard',
   profile: '/profile',
   settings: '/settings',
-  auth:{
-    login: 'auth/login',
-    register: 'auth/register',
+  auth: {
+    login: '/auth/login',
+    register: '/auth/register',
   },
 };
