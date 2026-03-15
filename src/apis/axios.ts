@@ -5,7 +5,7 @@ import { refreshToken } from "./apis";
 export const api = axios.create({
   baseURL: "http://localhost:3000",
 });
-
+export const webSocketApi = "ws://[IP_ADDRESS]";
 api.interceptors.request.use((config) => {
   const socketId = (useSocketStore.getState() as { socketId: string }).socketId;
   if (socketId) {
@@ -19,7 +19,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 let isRefreshing = false
-let refreshPromise:any = null
+let refreshPromise: any = null
 api.interceptors.response.use(
   response => response,
   async error => {
